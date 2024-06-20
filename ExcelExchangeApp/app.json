@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "ExcelExchangeApp",
+    "slug": "ExcelExchangeApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/splash.png",
+    "userInterfaceStyle": "light",
+    "expo": {
+      "plugins": [
+        [
+          "react-native-reanimated/plugin",
+          "expo-secure-store",
+          {
+            "relativeSourceLocation": true
+          },
+          {
+            "faceIDPermission": "Allow $(ExcelExchangeApp) to access your Face ID biometric data."
+          }
+        ]
+      ]
+    },
+    "ios": {
+      "supportsTablet": true,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.hardeygold.ExcelExchangeApp"
+    },
+    "web": {
+      "favicon": "./assets/splash.png"
+    },
+    "plugins": [
+      "expo-dev-client",
+      "expo-font",
+      "expo-asset",
+      "expo-secure-store"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6c792a4d-1039-45d0-a268-2ba449acaf26"
+      }
+    }
+  }
+}

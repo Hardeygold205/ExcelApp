@@ -1,0 +1,79 @@
+[
+  {
+    "_id": "66608aea904a531c657df23b",
+    "username": "Hadi",
+    "email": "Hadi@gmail.con",
+    "password": "$2b$10$NtXWNzXX82zphyWNcnGUT.7lZPp7CE9DxVjuEImKxfU/32ifX2zgu",
+    "__v": 0
+  },
+  {
+    "_id": "66608bed904a531c657df241",
+    "username": "Ademola",
+    "email": "ademola@gmail.com",
+    "password": "$2b$10$EszS..OQXV8Tp/ZqpFLffe9ggKuEue/ZB2IZXC5P405reEJenICZe",
+    "__v": 0
+  },
+  {
+    "_id": "6660919e47e93a9677d625bc",
+    "username": "Hadi",
+    "email": "hadi@gmail.com",
+    "password": "$2b$10$DkL7UzMPlB85sJv1LE7chOdS8M4cznxgRfpb1YcoT/j0nImAesnQK",
+    "__v": 0
+  },
+  {
+    "_id": "6660c59324d7943af0abd4fd",
+    "username": "Ade",
+    "email": "ade@gmail.com",
+    "password": "$2b$10$lTmkDrw1pHUdro0OpAFO6e.HJihMa95dOniY37r60Tq3Ut5myNfBC",
+    "__v": 0
+  },
+  {
+    "_id": "66618f19555b29599aea11e2",
+    "username": "Sign",
+    "email": "sign@gmail.com",
+    "password": "$2b$10$yZrUFMNRA6C9uapkN9P1OOayoZdhOLJsr5iXLo9oubZPpbxwVP2u.",
+    "__v": 0
+  },
+  {
+    "_id": "6661da97440bb4bdcbb01cf4",
+    "username": "Okay",
+    "email": "okay@gmail.com",
+    "password": "$2b$10$X27LhwViIOHt0r0.Citu2eLRXoZur3f.MbZCxYRMVPfXVWV3jhKom",
+    "__v": 0
+  },
+  {
+    "_id": "6661df761e3a4d875f5add8d",
+    "username": "ups",
+    "email": "ups@gmail.com",
+    "password": "$2b$10$Xo0.iEYC6qgaN1M7HZ2DDOsjT0.z6bf7dNSm19GVMyViF2.2.FZGu",
+    "__v": 0
+  },
+  {
+    "_id": "6661dfff1e3a4d875f5add91",
+    "username": "ups",
+    "email": "upsups@gmail.com",
+    "password": "$2b$10$vP.s8b4NSiefFY82Vh/7C.S0379ksGOfAfRZgZ0YOq87ZAusJdVNC",
+    "__v": 0
+  },
+  {
+    "_id": "6661e228e2eb67ec2ca32dc1",
+    "username": "Okayed",
+    "email": "okayed@gmail.com",
+    "password": "$2b$10$KIydZXLIcGKglBnQzu0TVO.R6FyzpLLPdTg4EqrXeCK.1GeSJvNVG",
+    "__v": 0
+  },
+  {
+    "_id": "6661e3c4e2eb67ec2ca32dc4",
+    "username": "cup",
+    "email": "cup@gmail.com",
+    "password": "$2b$10$kkkuBzK1noRcRfehv41F2e1nVW73HJYRVLF7u42SEmnXlByGyM0Vi",
+    "__v": 0
+  },
+  {
+    "_id": "6661eb54895ad0cc7523eb31",
+    "username": "Spoons",
+    "email": "spoons@gmail.com",
+    "password": "$2b$10$9V1zulD52oLHkSJarPJymOpNbSNYN0sOQuxGWb2q9Baz5fo5Hgx52",
+    "__v": 0
+  }
+]
