@@ -8,10 +8,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
+  ScrollView
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import background from "../assets/background.png";
+//import background from "../assets/background.png";
 import light from "../assets/light.png";
 import { useNavigation } from "@react-navigation/native";
 import Animated, {
@@ -171,13 +172,13 @@ export default function Signup() {
   };
 
   return (
-    <SafeAreaView className="bg-white h-full w-full">
+    <SafeAreaView className="bg-sky-600 h-full w-full">
       <StatusBar style="light" />
-      <ImageBackground
+      {/* <ImageBackground
         className="absolute h-full w-full"
         source={background}
         style={styles.background}
-      />
+      /> */}
       {loaded && (
         <Animated.View
           entering={FadeInUp.delay(100).damping(5).springify().duration(3000)}
@@ -187,18 +188,18 @@ export default function Signup() {
         </Animated.View>
       )}
       {loaded && (
-        <>
-          <View className="flex items-center absolute top-1/3 left-1/3">
-            <Text className="text-5xl font-bold text-white tracking-wider">
-              Signup
-            </Text>
-          </View>
-          <View className="flex w-full h-full justify-center top-48 ">
-            <View className="flex items-center mx-4 space-y-4">
-              <View className="flex-row w-full justify-between gap-x-1">
+        <ScrollView>
+          <View className="flex mt-14 w-full h-full p-3 justify-center">
+            <View className="flex items-center">
+              <Text className="text-5xl font-bold text-white tracking-wider">
+                Signup
+              </Text>
+            </View>
+            <View className="flex mt-5 items-center space-y-3">
+              <View className="flex-row w-full justify-between">
                 <Animated.View
                   entering={StretchInX.delay(100).duration(200)}
-                  className="w-1/2">
+                  className="w-48">
                   <TextInput
                     value={firstname}
                     onChangeText={handleFirstNameChange}
@@ -207,7 +208,7 @@ export default function Signup() {
                     className={
                       errors.firstname
                         ? "border border-red-500 p-5 rounded-2xl"
-                        : "p-5 border border-sky-600 bg-black/5 rounded-2xl"
+                        : "p-5 border border-slate-400 bg-black/5 rounded-2xl"
                     }
                   />
                   {errors.firstname && (
@@ -218,7 +219,7 @@ export default function Signup() {
                 </Animated.View>
                 <Animated.View
                   entering={StretchInX.delay(100).duration(200)}
-                  className="w-1/2">
+                  className="w-48">
                   <TextInput
                     value={lastname}
                     onChangeText={handleLastNameChange}
@@ -227,7 +228,7 @@ export default function Signup() {
                     className={
                       errors.lastname
                         ? "border border-red-500 p-5 rounded-2xl"
-                        : "p-5 border border-sky-600 bg-black/5 rounded-2xl"
+                        : "p-5 border border-slate-400 bg-black/5 rounded-2xl"
                     }
                   />
                   {errors.lastname && (
@@ -248,7 +249,7 @@ export default function Signup() {
                   className={
                     errors.username
                       ? "border border-red-500 p-5 rounded-2xl"
-                      : "p-5 border border-sky-600 bg-black/5 rounded-2xl"
+                      : "p-5 border border-slate-400 bg-black/5 rounded-2xl"
                   }
                 />
                 {errors.username && (
@@ -268,7 +269,7 @@ export default function Signup() {
                   className={
                     errors.email
                       ? "border border-red-500 p-5 rounded-2xl"
-                      : "p-5 border border-sky-600 bg-black/5 rounded-2xl"
+                      : "p-5 border border-slate-400 bg-black/5 rounded-2xl"
                   }
                 />
                 {errors.email && (
@@ -290,7 +291,7 @@ export default function Signup() {
                     className={
                       errors.password
                         ? "border border-red-500 p-5 rounded-2xl"
-                        : "p-5 border border-sky-600 bg-black/5 rounded-2xl"
+                        : "p-5 border border-slate-400 bg-black/5 rounded-2xl"
                     }
                   />
                   <TouchableOpacity
@@ -363,7 +364,7 @@ export default function Signup() {
               </View>
             </View>
           </View>
-        </>
+        </ScrollView>
       )}
     </SafeAreaView>
   );

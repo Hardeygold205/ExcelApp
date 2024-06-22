@@ -103,7 +103,6 @@ export default function App() {
     const checkUserToken = async () => {
       try {
         const token = await getToken();
-
         let userId;
         let storedPin = null;
 
