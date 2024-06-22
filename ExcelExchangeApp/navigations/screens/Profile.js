@@ -65,7 +65,10 @@ export default function Profile() {
   const handleLogout = async () => {
     try {
       await removeToken();
-      navigation.replace("Login");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Login" }],
+      });
     } catch (error) {
       console.error("Error during logout:", error);
     }
@@ -101,7 +104,10 @@ export default function Profile() {
                 );
                 console.log(response.data.message);
                 await removeToken();
-                navigation.replace("Login");
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Login" }],
+                })
               } catch (error) {
                 console.error(
                   "Error during account deletion:",
@@ -124,7 +130,7 @@ export default function Profile() {
     { key: "4", label: "Privacy and Security", icon: "shield-lock" },
     { key: "5", label: "Terms of Service", icon: "file-document" },
     { key: "6", label: "Language", icon: "earth", value: "English" },
-    { key: "7", label: "Authetication", icon: "fingerprint" },
+    { key: "7", label: "Verify Identity", icon: "account-check", value: "Set" },
     { key: "8", label: "Log out", icon: "logout" },
     { key: "9", label: "Close Account", icon: "account-remove" },
   ];
@@ -183,7 +189,9 @@ export default function Profile() {
                   navigation.push("ResetOrSetPin");
                 } else if (item.label === "Close Account") {
                   handleDeleteAccount();
-                }
+                } else if (item.label === "Terms of Service") {
+                  navigation.push("TermsOfService");
+                } 
                 return false;
               }}>
               <View className="bg-blue-400 rounded-md p-1">

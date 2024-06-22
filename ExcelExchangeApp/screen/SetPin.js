@@ -7,12 +7,14 @@ import { savePin } from "../utils/PinStorage";
 import { getToken } from "../utils/auth";
 import axios from "axios";
 import * as Haptics from "expo-haptics";
+import Animated, { BounceInRight } from "react-native-reanimated";
 
 export default function SetPin() {
   const navigation = useNavigation();
   const [pin, setPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
   const [stage, setStage] = useState(1);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleKeyPress = async (key) => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -20,11 +22,13 @@ export default function SetPin() {
       stage === 1
         ? setPin(pin.slice(0, -1))
         : setConfirmPin(confirmPin.slice(0, -1));
+        setErrorMessage("");
     } else if (
       (stage === 1 && pin.length < 4) ||
       (stage === 2 && confirmPin.length < 4)
     ) {
       stage === 1 ? setPin(pin + key) : setConfirmPin(confirmPin + key);
+      setErrorMessage("");
     }
   };
 
@@ -54,7 +58,6 @@ export default function SetPin() {
 
             if (userId) {
               await savePin(pin, userId);
-              Alert.alert("Success", "PIN set successfully!");
               console.log(pin, "PIN set successfully!");
               await Haptics.notificationAsync(
                 Haptics.NotificationFeedbackType.Success
@@ -72,7 +75,7 @@ export default function SetPin() {
         }
       } else {
         await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        Alert.alert("Error", "PINs do not match!");
+        setErrorMessage("PINs do not match. Try again");
         setPin("");
         setConfirmPin("");
         setStage(1);
@@ -98,6 +101,13 @@ export default function SetPin() {
             />
           ))}
         </View>
+        {errorMessage? (
+          <Animated.Text
+            entering={BounceInRight.damping(3).springify(1).duration(200)}
+            style={styles.errorText}>
+            {errorMessage}
+            </Animated.Text>
+            ) : null}
       </View>
       <View style={styles.keypad}>
         {["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "delete"].map(
@@ -161,7 +171,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "50%",
-    marginBottom: 20,
   },
   pinDot: {
     width: 15,
@@ -196,5 +205,10 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     textAlign: "center",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });

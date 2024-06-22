@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
   firstname: { type: "string", unique: true },
   lastname: { type: "string", unique: true },
   username: { type: "string", unique: true },
-  email: String,
+  email: { type: "string", unique: true },
   password: String,
 });
 
@@ -82,6 +82,9 @@ app.post("/api/login", async (req, res) => {
     const user = await User.findOne({
       $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
     });
+    if (!user) {
+      return res.status(401).json({ message: "Wrong credentials" });
+    }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {

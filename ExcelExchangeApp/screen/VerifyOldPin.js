@@ -7,11 +7,31 @@ import { getPin } from "../utils/PinStorage";
 import { getToken } from "../utils/auth";
 import axios from "axios";
 import * as Haptics from "expo-haptics";
+import Animated, { BounceInRight} from "react-native-reanimated";
 
 export default function VerifyOldPin() {
   const navigation = useNavigation();
   const [pin, setPin] = useState("");
   const [savedPin, setSavedPin] = useState("");
+  const [verify, setVerify] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleKeyPress = async (key) => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (key === "delete") {
+      setPin(pin.slice(0, -1));
+      setErrorMessage("");
+    } else if (pin.length < 4) {
+      setPin(pin + key);
+      setErrorMessage("");
+    }
+  };
+
+  useEffect(() => {
+    if (pin.length === 4 && !verify) {
+      setVerify(true);
+    }
+  }, [pin]);
 
   useEffect(() => {
     const fetchSavedPin = async () => {
@@ -40,39 +60,33 @@ export default function VerifyOldPin() {
     fetchSavedPin();
   }, []);
 
-  const handleKeyPress = async (key) => {
-    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    if (key === "delete") {
-      setPin(pin.slice(0, -1));
-    } else if (pin.length < 4) {
-      setPin(pin + key);
-    }
-  };
-
   useEffect(() => {
-    if (pin.length === 4) {
-      handleVerifyPin();
-    }
-  }, [pin]);
-
-  const handleVerifyPin = async () => {
-    try {
-      if (pin === savedPin) {
-        await Haptics.notificationAsync(
-          Haptics.NotificationFeedbackType.Success
-        );
-        Alert.alert("Success", "PIN verified successfully!");
-        navigation.replace("SetPin");
-      } else {
-        await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        Alert.alert("Error", "Incorrect PIN. Please try again.");
-        setPin("");
+    const verifyPin = async () => {
+      if (verify) {
+        try {
+          if (pin === savedPin) {
+            await Haptics.notificationAsync(
+              Haptics.NotificationFeedbackType.Success
+            );
+            navigation.replace("SetPin");
+          } else {
+            await Haptics.notificationAsync(
+              Haptics.NotificationFeedbackType.Error
+            );
+            setErrorMessage("Incorrect PIN. Try again");
+            setPin("");
+          }
+        } catch (error) {
+          console.error("Error verifying PIN:", error);
+          Alert.alert("Error", "Failed to verify PIN. Please try again.");
+        } finally {
+          setVerify(false);
+        }
       }
-    } catch (error) {
-      console.error("Error verifying PIN:", error);
-      Alert.alert("Error", "Failed to verify PIN. Please try again.");
-    }
-  };
+    };
+
+    verifyPin();
+  }, [verify]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -87,6 +101,13 @@ export default function VerifyOldPin() {
             />
           ))}
         </View>
+        {errorMessage ? (
+          <Animated.Text
+            entering={BounceInRight.damping(3).springify(1).duration(200)}
+            style={styles.errorText}>
+            {errorMessage}
+          </Animated.Text>
+        ) : null}
       </View>
       <View style={styles.keypad}>
         {["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "delete"].map(
@@ -96,9 +117,6 @@ export default function VerifyOldPin() {
               style={styles.key}
               onPress={() => {
                 handleKeyPress(key);
-                if (pin.length === 3 && key !== "delete") {
-                  setTimeout(handleVerifyPin, 400);
-                }
               }}>
               <Text style={styles.keyText}>{key === "delete" ? "⌫" : key}</Text>
             </TouchableOpacity>
@@ -132,7 +150,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "50%",
-    marginBottom: 20,
   },
   pinDot: {
     width: 15,
@@ -157,5 +174,10 @@ const styles = StyleSheet.create({
   },
   keyText: {
     fontSize: 18,
+  },
+  errorText: {
+    color: "red",
+    fontSize: 15,
+    fontWeight: "bold"
   },
 });

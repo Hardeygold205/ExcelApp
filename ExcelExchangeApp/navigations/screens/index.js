@@ -5,6 +5,7 @@ import Trade from "./Trade";
 import Profile from "./Profile";
 import EditProfile from "./EditProfile";
 import ResetOrSetpin from "./ResetOrSetpin";
+import TermsOfService from "./TermsOfService";
 
 export {
     Home,
@@ -14,4 +15,5 @@ export {
     Profile,
     EditProfile,
     ResetOrSetpin,
+    TermsOfService,
 };

@@ -7,17 +7,21 @@ import { getToken } from "../utils/auth";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import * as Haptics from "expo-haptics";
+import Animated, { BounceInRight } from "react-native-reanimated";
 
 export default function PinLogin() {
   const navigation = useNavigation();
   const [userPin, setUserPin] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleKeyPress = async (key) => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     if (key === "delete") {
       setUserPin(userPin.slice(0, -1));
+      setErrorMessage("");
     } else if (userPin.length < 4) {
       setUserPin(userPin + key);
+      setErrorMessage("");
     }
   };
 
@@ -55,11 +59,10 @@ export default function PinLogin() {
           );
           navigation.replace("Welcome");
         } else {
-          console.log("Invalid PIN!");
+          setErrorMessage("Incorrect PIN. Try again");
           await Haptics.notificationAsync(
             Haptics.NotificationFeedbackType.Error
           );
-          Alert.alert("Invalid PIN", "The PIN you entered is incorrect.");
           setUserPin("");
         }
       } else {
@@ -84,8 +87,14 @@ export default function PinLogin() {
             />
           ))}
         </View>
+        {errorMessage ? (
+          <Animated.Text
+            entering={BounceInRight.damping(3).springify(1).duration(200)}
+            style={styles.errorText}>
+            {errorMessage}
+          </Animated.Text>
+        ) : null}
       </View>
-
       <View style={styles.keypad}>
         {["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "delete"].map(
           (key) => (
@@ -130,7 +139,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "50%",
-    marginBottom: 20,
   },
   pinDot: {
     width: 15,
@@ -164,5 +172,10 @@ const styles = StyleSheet.create({
   forgotText: {
     fontSize: 16,
     color: "#0000ff",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });

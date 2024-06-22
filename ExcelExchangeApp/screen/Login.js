@@ -40,9 +40,8 @@ export default function Login() {
   const validateEmailOrUsername = (emailOrUsername) => {
     if (!emailOrUsername) {
       return "Email or Username is required";
-    } else if (!emailOrUsername) {
-    return "username or email is not correct";
-    } return "";
+    }
+    return "";
   };
 
   const validatePassword = (password) => {
@@ -59,10 +58,11 @@ export default function Login() {
     const passwordError = validatePassword(password);
 
     if (emailError || passwordError) {
-      setErrors({ email: emailError, password: passwordError });
+      setErrors({ emailOrUsername: emailError, password: passwordError });
       return;
     }
     setIsLoading(true);
+    setMessage("");
     try {
       const response = await axios.post("http://172.20.10.3:5005/api/login", {
         emailOrUsername,
@@ -78,10 +78,16 @@ export default function Login() {
 
       if (storedPin) {
         console.log("Navigating to PinLogin");
-        navigation.replace("PinLogin");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "PinLogin" }],
+        });
       } else {
         console.log("Navigating to Welcome");
-        navigation.replace("Welcome");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Welcome" }],
+        });
       }
     } catch (error) {
       if (
@@ -105,7 +111,7 @@ export default function Login() {
   const handleEmailOrUsernameChange = (value) => {
     setEmailOrUsername(value);
     const emailError = validateEmailOrUsername(value);
-    setErrors((prevErrors) => ({ ...prevErrors, email: emailError }));
+    setErrors((prevErrors) => ({ ...prevErrors, emailOrUsername: emailError }));
   };
 
   const handlePasswordChange = (value) => {

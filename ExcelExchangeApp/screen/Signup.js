@@ -107,6 +107,7 @@ export default function Signup() {
       return;
     }
     setIsLoading(true);
+    setMessage("");
     try {
       const response = await axios.post("http://172.20.10.3:5005/api/signup", {
         username,

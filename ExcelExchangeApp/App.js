@@ -25,6 +25,7 @@ import Wallet from "./navigations/screens/Wallet";
 import Market from "./navigations/screens/Market";
 import Trade from "./navigations/screens/Trade";
 import ResetOrSetpin from "./navigations/screens/ResetOrSetpin";
+import TermsOfService from "./navigations/screens/TermsOfService";
 import { getToken } from "./utils/auth";
 import { getPin } from "./utils/PinStorage";
 import { Inter_400Regular } from "@expo-google-fonts/inter";
@@ -37,6 +38,7 @@ import * as SplashScreen from "expo-splash-screen";
 import axios from "axios";
 
 const Stack = createNativeStackNavigator();
+
 
 SplashScreen.preventAutoHideAsync();
 
@@ -71,8 +73,8 @@ const loadResources = async () => {
 };
 
 export default function App() {
-  const [isShowSplashScreen, setIsShowSplashScreen] = useState(true);
   const navigationRef = useRef(null);
+  const [isShowSplashScreen, setIsShowSplashScreen] = useState(true);
   const [isReady, setIsReady] = useState(false);
   const [fontsLoaded, fontError] = useFonts({
     Inter_400Regular,
@@ -137,10 +139,10 @@ export default function App() {
                 routes: [{ name: "PinLogin" }],
               });
             } else if (!storedPin) {
-              console.log("Navigating to SetPin");
+              console.log("Navigating to ValueSecurity");
               navigationRef.current?.reset({
                 index: 0,
-                routes: [{ name: "SetPin" }],
+                routes: [{ name: "ValueSecurity" }],
               });
             } else {
               console.log("Navigating to Welcome");
@@ -158,9 +160,14 @@ export default function App() {
           }
         }, 3000);
       } catch (error) {
-        setIsShowSplashScreen(false);
-        console.log("Navigating to Login");
-        navigationRef.current?.navigate("Login");
+        setTimeout(() => {
+          setIsShowSplashScreen(false);
+          console.log("Navigating to Login");
+          navigationRef.current?.reset({
+            index: 0,
+            routes: [{ name: "Login" }],
+          });
+        }, 3000);
       }
     };
 
@@ -271,6 +278,11 @@ export default function App() {
                   name="VerifyOldPin"
                   component={VerifyOldPin}
                   options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                name="TermsOfService"
+                component={TermsOfService}
+                options={{ headerShown: false }}
                 />
               </>
             )}
