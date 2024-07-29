@@ -49,7 +49,7 @@ export default function SetPin() {
           };
 
           const response = await axios.get(
-            "http://172.20.10.3:5005/api/user/me",
+            "http://172.20.10.2:5005/api/user/me",
             config
           );
 

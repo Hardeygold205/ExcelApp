@@ -7,7 +7,6 @@ import {
   Image,
   FlatList,
   Alert,
-  ScrollView
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -166,8 +165,7 @@ export default function Profile() {
                 <Text className="text-gray-500 text-[16px]">{user.email}</Text>
               </View>
             </View>
-            <Animated.View
-              entering={StretchInY.delay(100).duration(200)}
+            <View
               className="w-full">
               <TouchableOpacity
                 onPress={() => navigation.push("EditProfile")}
@@ -176,7 +174,7 @@ export default function Profile() {
                   Edit Profile
                 </Text>
               </TouchableOpacity>
-            </Animated.View>
+            </View>
           </View>
         )}
         renderItem={({ item, index }) => (

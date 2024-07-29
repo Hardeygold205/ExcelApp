@@ -4,15 +4,15 @@ import {
   Image,
   View,
   StatusBar,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
-  ScrollView
+  ScrollView,
 } from "react-native";
+import { TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-//import background from "../assets/background.png";
+import background from "../assets/background.png";
 import light from "../assets/light.png";
 import { useNavigation } from "@react-navigation/native";
 import Animated, {
@@ -96,7 +96,6 @@ export default function Signup() {
     const emailError = validateEmail(email);
     const passwordError = validatePassword(password);
 
-
     if (usernameError || emailError || passwordError) {
       setErrors({
         firstname: firstnameError,
@@ -172,29 +171,31 @@ export default function Signup() {
   };
 
   return (
-    <SafeAreaView className="bg-sky-600 h-full w-full">
+    <SafeAreaView className="bg-white h-full w-full">
       <StatusBar style="light" />
-      {/* <ImageBackground
-        className="absolute h-full w-full"
+      <ImageBackground
+        className="absolute top-[-60px] h-full w-full"
         source={background}
         style={styles.background}
-      /> */}
+      />
       {loaded && (
-        <Animated.View
-          entering={FadeInUp.delay(100).damping(5).springify().duration(3000)}
-          className="flex-row justify-around w-full absolute">
-          <ImageBackground className="h-[225] w-[90]" source={light} />
-          <ImageBackground className="h-[160] w-[65]" source={light} />
-        </Animated.View>
+        <>
+          <Animated.View
+            entering={FadeInUp.delay(100).damping(5).springify().duration(3000)}
+            className="flex-row justify-around w-full absolute">
+            <ImageBackground className="h-[225] w-[90]" source={light} />
+            <ImageBackground className="h-[160] w-[65]" source={light} />
+          </Animated.View>
+          <View className="flex mt-[45%] items-center">
+            <Text className="text-5xl font-bold text-white tracking-wider">
+              Signup
+            </Text>
+          </View>
+        </>
       )}
       {loaded && (
-        <ScrollView>
-          <View className="flex mt-14 w-full h-full p-3 justify-center">
-            <View className="flex items-center">
-              <Text className="text-5xl font-bold text-white tracking-wider">
-                Signup
-              </Text>
-            </View>
+        <ScrollView className="mt-10 flex-1">
+          <View className="flex-1 w-full h-full p-3 justify-center">
             <View className="flex mt-5 items-center space-y-3">
               <View className="flex-row w-full justify-between">
                 <Animated.View
@@ -203,13 +204,11 @@ export default function Signup() {
                   <TextInput
                     value={firstname}
                     onChangeText={handleFirstNameChange}
-                    placeholder="Firstname"
                     placeholderTextColor={"gray"}
-                    className={
-                      errors.firstname
-                        ? "border border-red-500 p-5 rounded-2xl"
-                        : "p-5 border border-slate-400 bg-black/5 rounded-2xl"
-                    }
+                    label="Firstname"
+                    mode="outlined"
+                    activeOutlineColor="#42a5f5"
+                    error={errors.firstname ? true : false}
                   />
                   {errors.firstname && (
                     <Text className="mb-[-10px]" style={styles.errorText}>
@@ -223,13 +222,11 @@ export default function Signup() {
                   <TextInput
                     value={lastname}
                     onChangeText={handleLastNameChange}
-                    placeholder="Lastname"
                     placeholderTextColor={"gray"}
-                    className={
-                      errors.lastname
-                        ? "border border-red-500 p-5 rounded-2xl"
-                        : "p-5 border border-slate-400 bg-black/5 rounded-2xl"
-                    }
+                    label="Lastname"
+                    mode="outlined"
+                    activeOutlineColor="#42a5f5"
+                    error={errors.lastname ? true : false}
                   />
                   {errors.lastname && (
                     <Text className="mb-[-10px]" style={styles.errorText}>
@@ -244,13 +241,10 @@ export default function Signup() {
                 <TextInput
                   value={username}
                   onChangeText={handleUsernameChange}
-                  placeholder="Username"
-                  placeholderTextColor={"gray"}
-                  className={
-                    errors.username
-                      ? "border border-red-500 p-5 rounded-2xl"
-                      : "p-5 border border-slate-400 bg-black/5 rounded-2xl"
-                  }
+                  label="Username"
+                  mode="outlined"
+                  activeOutlineColor="#42a5f5"
+                  error={errors.username ? true : false}
                 />
                 {errors.username && (
                   <Text className="mb-[-10px]" style={styles.errorText}>
@@ -264,13 +258,10 @@ export default function Signup() {
                 <TextInput
                   value={email}
                   onChangeText={handleEmailChange}
-                  placeholder="Email"
-                  placeholderTextColor={"gray"}
-                  className={
-                    errors.email
-                      ? "border border-red-500 p-5 rounded-2xl"
-                      : "p-5 border border-slate-400 bg-black/5 rounded-2xl"
-                  }
+                  label="Email"
+                  mode="outlined"
+                  activeOutlineColor="#42a5f5"
+                  error={errors.email ? true : false}
                 />
                 {errors.email && (
                   <Text className="mb-[-10px]" style={styles.errorText}>
@@ -281,29 +272,21 @@ export default function Signup() {
               <Animated.View
                 entering={StretchInX.delay(100).duration(200)}
                 className="w-full mb-3">
-                <View className="relative">
-                  <TextInput
-                    value={password}
-                    onChangeText={handlePasswordChange}
-                    placeholder="password"
-                    secureTextEntry={secureText}
-                    placeholderTextColor={"gray"}
-                    className={
-                      errors.password
-                        ? "border border-red-500 p-5 rounded-2xl"
-                        : "p-5 border border-slate-400 bg-black/5 rounded-2xl"
-                    }
-                  />
-                  <TouchableOpacity
-                    className="absolute right-5 top-4"
-                    onPress={togglePasswordVisibility}>
+                <TextInput
+                  value={password}
+                  onChangeText={handlePasswordChange}
+                  label="Password"
+                  mode="outlined"
+                  activeOutlineColor="#42a5f5"
+                  secureTextEntry={secureText}
+                  right={
                     <Icon
-                      name={secureText ? "eye-off" : "eye"}
-                      size={24}
-                      color="gray"
+                      onPress={togglePasswordVisibility}
+                      icon={secureText ? "eye-off" : "eye"}
                     />
-                  </TouchableOpacity>
-                </View>
+                  }
+                  error={errors.password ? true : false}
+                />
                 {errors.password && (
                   <Text className="mb-[-10px]" style={styles.errorText}>
                     {errors.password}

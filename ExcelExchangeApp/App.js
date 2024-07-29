@@ -37,8 +37,27 @@ import { Asset } from "expo-asset";
 import * as SplashScreen from "expo-splash-screen";
 import axios from "axios";
 
-const Stack = createNativeStackNavigator();
+const axiosInstance = axios.create();
 
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const {
+      config,
+      response: { status },
+    } = error;
+    if (status === 429) {
+      const retryAfter = error.response.headers["retry-after"];
+      const delay = retryAfter ? parseInt(retryAfter, 10) * 1000 : 1000;
+
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      return axiosInstance(config);
+    }
+    return Promise.reject(error);
+  }
+);
+
+const Stack = createNativeStackNavigator();
 
 SplashScreen.preventAutoHideAsync();
 
@@ -111,7 +130,7 @@ export default function App() {
             Authorization: `Bearer ${token}`,
           },
         };
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           "http://172.20.10.3:5005/api/user/me",
           config
         );
@@ -161,7 +180,7 @@ export default function App() {
       } catch (error) {
         setTimeout(() => {
           setIsShowSplashScreen(false);
-          console.log("Navigating to Login");
+          console.log("Navigating to Login on error");
           navigationRef.current?.reset({
             index: 0,
             routes: [{ name: "Login" }],
@@ -279,9 +298,9 @@ export default function App() {
                   options={{ headerShown: false }}
                 />
                 <Stack.Screen
-                name="TermsOfService"
-                component={TermsOfService}
-                options={{ headerShown: false }}
+                  name="TermsOfService"
+                  component={TermsOfService}
+                  options={{ headerShown: false }}
                 />
               </>
             )}

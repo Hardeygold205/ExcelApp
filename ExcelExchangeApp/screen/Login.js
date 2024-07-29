@@ -3,11 +3,12 @@ import {
   Text,
   View,
   StatusBar,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
+  ScrollView,
 } from "react-native";
+import { TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import background from "../assets/background.png";
@@ -64,6 +65,7 @@ export default function Login() {
     setIsLoading(true);
     setMessage("");
     try {
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
       const response = await axios.post("http://172.20.10.3:5005/api/login", {
         emailOrUsername,
         password,
@@ -129,34 +131,37 @@ export default function Login() {
         style={styles.background}
       />
       {loaded && (
-        <Animated.View
-          entering={FadeInUp.delay(100).damping(3).springify(1).duration(3000)}
-          className="flex-row justify-around w-full absolute">
-          <ImageBackground className="h-[225] w-[90]" source={light} />
-          <ImageBackground className="h-[160] w-[65]" source={light} />
-        </Animated.View>
-      )}
-      {loaded && (
-        <View className="flex justify-around w-full h-full pt-36 pb-10">
-          <View className="flex items-center">
+        <>
+          <Animated.View
+            entering={FadeInUp.delay(100)
+              .damping(3)
+              .springify(1)
+              .duration(3000)}
+            className="flex-row justify-around w-full absolute">
+            <ImageBackground className="h-[225] w-[90]" source={light} />
+            <ImageBackground className="h-[160] w-[65]" source={light} />
+          </Animated.View>
+          <View className="flex mt-[50%] items-center">
             <Text className="text-5xl font-bold text-white tracking-wider">
               Login
             </Text>
           </View>
-          <View className="flex items-center mx-4 space-y-4">
+        </>
+      )}
+      {loaded && (
+        <ScrollView className="flex w-full h-full pb-10">
+          <View className="flex-1 mt-[30%] items-center mx-4 space-y-4">
             <Animated.View
               entering={StretchInX.delay(100).duration(200)}
               className="w-full">
               <TextInput
                 value={emailOrUsername}
                 onChangeText={handleEmailOrUsernameChange}
-                placeholder="Email or username"
                 placeholderTextColor={"gray"}
-                className={
-                  errors.emailOrUsername
-                    ? "border border-red-500 p-5 rounded-2xl"
-                    : "p-5 border border-sky-600 bg-black/5 rounded-2xl"
-                }
+                label="Email or username"
+                mode="outlined"
+                activeOutlineColor="#42a5f5"
+                error={errors.emailOrUsername ? true : false}
               />
               {errors.emailOrUsername && (
                 <Text className="mb-[-10px]" style={styles.errorText}>
@@ -167,29 +172,22 @@ export default function Login() {
             <Animated.View
               entering={StretchInX.delay(100).duration(200)}
               className="w-full mb-3">
-              <View className="relative">
-                <TextInput
-                  value={password}
-                  onChangeText={handlePasswordChange}
-                  placeholder="password"
-                  secureTextEntry={secureText}
-                  placeholderTextColor={"gray"}
-                  className={
-                    errors.password
-                      ? "border border-red-500 p-5 rounded-2xl"
-                      : "p-5 border border-sky-600 bg-black/5 rounded-2xl"
-                  }
-                />
-                <TouchableOpacity
-                  className="absolute right-5 top-4"
-                  onPress={togglePasswordVisibility}>
+              <TextInput
+                label="Password"
+                value={password}
+                onChangeText={handlePasswordChange}
+                placeholderTextColor={"gray"}
+                mode="outlined"
+                activeOutlineColor="#42a5f5"
+                secureTextEntry={secureText}
+                right={
                   <Icon
-                    name={secureText ? "eye-off" : "eye"}
-                    size={24}
-                    color="gray"
+                    onPress={togglePasswordVisibility}
+                    icon={secureText ? "eye-off" : "eye"}
                   />
-                </TouchableOpacity>
-              </View>
+                }
+                error={errors.password ? true : false}
+              />
               {errors.password && (
                 <Text className="mb-[-10px]" style={styles.errorText}>
                   {errors.password}
@@ -222,7 +220,7 @@ export default function Login() {
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+        </ScrollView>
       )}
     </SafeAreaView>
   );
