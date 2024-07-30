@@ -42,9 +42,9 @@ export default function SplashScreenUi() {
   };
 
   return (
-    <View className="flex-1 justify-center items-center bg-sky-500">
+    <View style={styles.container}>
       <StatusBar style="light" />
-      <View>
+      <View style={styles.innerContainer}>
         <Animated.View style={animatedStyle}>
           <ImageBackground
             onLoad={() => {
@@ -55,11 +55,7 @@ export default function SplashScreenUi() {
             source={splash}
           />
         </Animated.View>
-        <Text
-          style={{ fontFamily: "AlfaSlabOne_400Regular", fontSize: "45px" }}
-          className="text-white font-bold text-center text-4xl">
-          ExcelExchange
-        </Text>
+        <Text style={styles.text}>ExcelExchange</Text>
         {!isImageLoaded && <ActivityIndicator size="large" color="#0000ff" />}
       </View>
     </View>
@@ -67,10 +63,26 @@ export default function SplashScreenUi() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#0ea5e9",
+  },
+  innerContainer: {
+    alignItems: "center",
+  },
   image: {
     width: 90,
     height: 90,
     resizeMode: "contain",
     alignSelf: "center",
+  },
+  text: {
+    fontFamily: "AlfaSlabOne_400Regular",
+    fontSize: 45,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

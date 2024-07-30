@@ -8,6 +8,8 @@ import {
   StyleSheet,
   ImageBackground,
   ScrollView,
+  Dimensions,
+  Platform,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -171,180 +173,170 @@ export default function Signup() {
   };
 
   return (
-    <SafeAreaView className="bg-white h-full w-full">
+    <SafeAreaView style={styles.safeArea}>
       <StatusBar style="light" />
       <ImageBackground
-        className="absolute top-[-60px] h-full w-full"
-        source={background}
-        style={styles.background}
+        style={styles.backgroundImage}
+        source={background} 
       />
       {loaded && (
         <>
           <Animated.View
             entering={FadeInUp.delay(100).damping(5).springify().duration(3000)}
-            className="flex-row justify-around w-full absolute">
-            <ImageBackground className="h-[225] w-[90]" source={light} />
-            <ImageBackground className="h-[160] w-[65]" source={light} />
+            style={styles.animatedContainer}>
+            <ImageBackground
+              style={styles.lightImage1}
+              source={light}
+            />
+            <ImageBackground
+              style={styles.lightImage2}
+              source={light}
+            />
           </Animated.View>
-          <View className="flex mt-[45%] items-center">
-            <Text className="text-5xl font-bold text-white tracking-wider">
-              Signup
-            </Text>
+          <View style={styles.titleContainer}>
+            <Text style={styles.titleText}>Signup</Text>
           </View>
         </>
       )}
       {loaded && (
-        <ScrollView className="mt-10 flex-1">
-          <View className="flex-1 w-full h-full p-3 justify-center">
-            <View className="flex mt-5 items-center space-y-3">
-              <View className="flex-row w-full justify-between">
-                <Animated.View
-                  entering={StretchInX.delay(100).duration(200)}
-                  className="w-48">
-                  <TextInput
-                    value={firstname}
-                    onChangeText={handleFirstNameChange}
-                    placeholderTextColor={"gray"}
-                    label="Firstname"
-                    mode="outlined"
-                    activeOutlineColor="#42a5f5"
-                    error={errors.firstname ? true : false}
-                  />
-                  {errors.firstname && (
-                    <Text className="mb-[-10px]" style={styles.errorText}>
-                      {errors.firstname}
-                    </Text>
-                  )}
-                </Animated.View>
-                <Animated.View
-                  entering={StretchInX.delay(100).duration(200)}
-                  className="w-48">
-                  <TextInput
-                    value={lastname}
-                    onChangeText={handleLastNameChange}
-                    placeholderTextColor={"gray"}
-                    label="Lastname"
-                    mode="outlined"
-                    activeOutlineColor="#42a5f5"
-                    error={errors.lastname ? true : false}
-                  />
-                  {errors.lastname && (
-                    <Text className="mb-[-10px]" style={styles.errorText}>
-                      {errors.lastname}
-                    </Text>
-                  )}
-                </Animated.View>
-              </View>
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.formContainer}>
+            <View style={styles.inputRow}>
               <Animated.View
                 entering={StretchInX.delay(100).duration(200)}
-                className="w-full">
+                style={styles.inputContainer}>
                 <TextInput
-                  value={username}
-                  onChangeText={handleUsernameChange}
-                  label="Username"
+                  value={firstname}
+                  onChangeText={handleFirstNameChange}
+                  placeholderTextColor={"gray"}
+                  label="Firstname"
                   mode="outlined"
                   activeOutlineColor="#42a5f5"
-                  error={errors.username ? true : false}
+                  style={styles.input}
+                  error={errors.firstname ? true : false}
                 />
-                {errors.username && (
-                  <Text className="mb-[-10px]" style={styles.errorText}>
-                    {errors.username}
-                  </Text>
+                {errors.firstname && (
+                  <Text style={styles.errorText}>{errors.firstname}</Text>
                 )}
               </Animated.View>
               <Animated.View
                 entering={StretchInX.delay(100).duration(200)}
-                className="w-full">
+                style={styles.inputContainer}>
                 <TextInput
-                  value={email}
-                  onChangeText={handleEmailChange}
-                  label="Email"
+                  value={lastname}
+                  onChangeText={handleLastNameChange}
+                  placeholderTextColor={"gray"}
+                  label="Lastname"
                   mode="outlined"
                   activeOutlineColor="#42a5f5"
-                  error={errors.email ? true : false}
+                  style={styles.input}
+                  error={errors.lastname ? true : false}
                 />
-                {errors.email && (
-                  <Text className="mb-[-10px]" style={styles.errorText}>
-                    {errors.email}
-                  </Text>
+                {errors.lastname && (
+                  <Text style={styles.errorText}>{errors.lastname}</Text>
                 )}
               </Animated.View>
-              <Animated.View
-                entering={StretchInX.delay(100).duration(200)}
-                className="w-full mb-3">
-                <TextInput
-                  value={password}
-                  onChangeText={handlePasswordChange}
-                  label="Password"
-                  mode="outlined"
-                  activeOutlineColor="#42a5f5"
-                  secureTextEntry={secureText}
-                  right={
-                    <Icon
-                      onPress={togglePasswordVisibility}
-                      icon={secureText ? "eye-off" : "eye"}
-                    />
-                  }
-                  error={errors.password ? true : false}
-                />
-                {errors.password && (
-                  <Text className="mb-[-10px]" style={styles.errorText}>
-                    {errors.password}
-                  </Text>
+            </View>
+            <Animated.View
+              entering={StretchInX.delay(100).duration(200)}
+              style={styles.fullWidthInputContainer}>
+              <TextInput
+                value={username}
+                onChangeText={handleUsernameChange}
+                label="Username"
+                mode="outlined"
+                activeOutlineColor="#42a5f5"
+                style={styles.input}
+                error={errors.username ? true : false}
+              />
+              {errors.username && (
+                <Text style={styles.errorText}>{errors.username}</Text>
+              )}
+            </Animated.View>
+            <Animated.View
+              entering={StretchInX.delay(100).duration(200)}
+              style={styles.fullWidthInputContainer}>
+              <TextInput
+                value={email}
+                onChangeText={handleEmailChange}
+                label="Email"
+                mode="outlined"
+                activeOutlineColor="#42a5f5"
+                style={styles.input}
+                error={errors.email ? true : false}
+              />
+              {errors.email && (
+                <Text style={styles.errorText}>{errors.email}</Text>
+              )}
+            </Animated.View>
+            <Animated.View
+              entering={StretchInX.delay(100).duration(200)}
+              style={[styles.fullWidthInputContainer, styles.mb3]}>
+              <TextInput
+                value={password}
+                onChangeText={handlePasswordChange}
+                label="Password"
+                mode="outlined"
+                activeOutlineColor="#42a5f5"
+                secureTextEntry={secureText}
+                right={
+                  <Icon
+                    onPress={togglePasswordVisibility}
+                    icon={secureText ? "eye-off" : "eye"}
+                  />
+                }
+                style={styles.input}
+                error={errors.password ? true : false}
+              />
+              {errors.password && (
+                <Text style={styles.errorText}>{errors.password}</Text>
+              )}
+            </Animated.View>
+            <Animated.View
+              entering={StretchInY.delay(100).duration(200)}
+              style={styles.fullWidthInputContainer}>
+              <TouchableOpacity
+                onPress={handleSignup}
+                disabled={isLoading}
+                style={styles.signupButton}>
+                {isLoading ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text style={styles.signupButtonText}>Signup</Text>
                 )}
-              </Animated.View>
-              <Animated.View
-                entering={StretchInY.delay(100).duration(200)}
-                className="w-full">
-                <TouchableOpacity
-                  onPress={handleSignup}
-                  disabled={isLoading}
-                  className="bg-sky-500 p-3 rounded-2xl w-full">
-                  {isLoading ? (
-                    <ActivityIndicator color="#fff" />
-                  ) : (
-                    <Text className="text-white font-bold text-center text-xl">
-                      Signup
-                    </Text>
-                  )}
-                </TouchableOpacity>
-              </Animated.View>
-              <Text style={styles.errorText}>{message}</Text>
-              <View className="w-full items-center flex-row justify-center">
-                <View className="flex-1 h-[1px] bg-gray-300" />
-                <Text className="text-xl text-gray-500 mx-3">OR</Text>
-                <View className="flex-1 h-[1px] bg-gray-300" />
-              </View>
-              <Animated.View
-                entering={FlipInEasyX.delay(200).duration(400)}
-                className="w-full flex-row justify-center items-center gap-1">
-                <TouchableOpacity className="flex-1 justify-center items-center h-[43] flex-row bg-white border border-2xl rounded-2xl">
-                  <Image
-                    className="h-[30] w-[30]"
-                    source={require("../assets/google.png")}
-                  />
-                  <Text className="text-xl text-black font-bold ml-2">
-                    Google
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity className="flex-1 justify-center items-center h-[43] flex-row bg-white border border-2xl rounded-2xl">
-                  <Image
-                    className="h-[30] w-[30]"
-                    source={require("../assets/apple-logo.png")}
-                  />
-                  <Text className="text-xl text-black font-bold ml-2">
-                    Apple
-                  </Text>
-                </TouchableOpacity>
-              </Animated.View>
-              <View className="w-full flex-row justify-center align-items-center ">
-                <Text className="text-xl ">Already have an account?</Text>
-                <TouchableOpacity
-                  className=""
-                  onPress={() => navigation.push("Login")}>
-                  <Text className="text-sky-500 font-bold text-xl">Login</Text>
-                </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
+            </Animated.View>
+            <Text style={styles.errorText}>{message}</Text>
+            <View style={styles.separatorContainer}>
+              <View style={styles.separatorLine} />
+              <Text style={styles.separatorText}>OR</Text>
+              <View style={styles.separatorLine} />
+            </View>
+            <Animated.View
+              entering={FlipInEasyX.delay(200).duration(400)}
+              style={styles.socialLoginContainer}>
+              <TouchableOpacity style={styles.socialLoginButton}>
+                <Image
+                  style={styles.socialLoginIcon}
+                  source={require("../assets/google.png")}
+                />
+                <Text style={styles.socialLoginButtonText}>Google</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialLoginButton}>
+                <Image
+                  style={styles.socialLoginIcon}
+                  source={require("../assets/apple-logo.png")}
+                />
+                <Text style={styles.socialLoginButtonText}>Apple</Text>
+              </TouchableOpacity>
+            </Animated.View>
+            <View style={styles.loginRedirectContainer}>
+              <Text style={styles.loginRedirectText}>
+                Already have an account?
+              </Text>
+              <TouchableOpacity onPress={() => navigation.push("Login")}>
+                <Text style={styles.loginRedirectButtonText}>Login</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
@@ -353,14 +345,157 @@ export default function Signup() {
   );
 }
 
+const { width } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "center",
+  safeArea: {
+    backgroundColor: "white",
+    height: "100%",
+    width: "100%",
+  },
+  backgroundImage: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+  },
+  animatedContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+    position: "absolute",
+  },
+  lightImage1: {
+    height: 225,
+    width: 90,
+  },
+  lightImage2: {
+    height: 160,
+    width: 65,
+  },
+  titleContainer: {
+    marginTop: width * 0.4,
     alignItems: "center",
+    ...Platform.select({
+      web: {
+        marginTop: width * 0.1,
+      },
+    }),
+  },
+  titleText: {
+    fontSize: 50,
+    fontWeight: "bold",
+    color: "white",
+    letterSpacing: 2,
+    ...Platform.select({
+      web: {
+        fontSize: 55,
+      },
+    }),
+  },
+  scrollView: {
+    marginTop: 10,
+    flex: 1,
+  },
+  formContainer: {
+    flex: 1,
+    width: "100%",
+    padding: 12,
+    justifyContent: "center",
+    marginTop: width * 0.3,
+    ...Platform.select({
+      web: {
+        marginTop: width * 0.1,
+      },
+    })
+  },
+  inputRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 5,
+  },
+  inputContainer: {
+    width: "48%",
+  },
+  fullWidthInputContainer: {
+    width: "100%",
+    marginBottom: 5,
+  },
+  mb3: {
+    marginBottom: 15,
   },
   errorText: {
     color: "red",
     fontSize: 10,
+    marginTop: 1,
+  },
+  signupButton: {
+    backgroundColor: "#0ea5e9",
+    padding: 16,
+    borderRadius: 16,
+    width: "100%",
+    alignItems: "center",
+  },
+  signupButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  separatorContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  separatorLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "gray",
+  },
+  separatorText: {
+    marginHorizontal: 12,
+    fontSize: 18,
+    color: "gray",
+  },
+  socialLoginContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  socialLoginButton: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: 43,
+    flexDirection: "row",
+    backgroundColor: "white",
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 16,
+    marginHorizontal: 4,
+  },
+  socialLoginIcon: {
+    height: 30,
+    width: 30,
+  },
+  socialLoginButtonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginLeft: 8,
+    color: "black",
+  },
+  loginRedirectContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loginRedirectText: {
+    fontSize: 18,
+  },
+  loginRedirectButtonText: {
+    color: "#0ea5e9",
+    fontWeight: "bold",
+    fontSize: 18,
+    marginLeft: 8,
   },
 });

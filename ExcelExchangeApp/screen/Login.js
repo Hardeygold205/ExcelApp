@@ -7,6 +7,8 @@ import {
   StyleSheet,
   ImageBackground,
   ScrollView,
+  Dimensions,
+  Platform
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -65,7 +67,6 @@ export default function Login() {
     setIsLoading(true);
     setMessage("");
     try {
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
       const response = await axios.post("http://172.20.10.3:5005/api/login", {
         emailOrUsername,
         password,
@@ -123,12 +124,11 @@ export default function Login() {
   };
 
   return (
-    <SafeAreaView className="bg-white h-full w-full">
+    <SafeAreaView style={styles.safeArea}>
       <StatusBar style="light" />
       <ImageBackground
-        className="absolute h-full w-full"
+        style={styles.backgroundImage}
         source={background}
-        style={styles.background}
       />
       {loaded && (
         <>
@@ -137,23 +137,27 @@ export default function Login() {
               .damping(3)
               .springify(1)
               .duration(3000)}
-            className="flex-row justify-around w-full absolute">
-            <ImageBackground className="h-[225] w-[90]" source={light} />
-            <ImageBackground className="h-[160] w-[65]" source={light} />
+            style={styles.animatedContainer}>
+            <ImageBackground
+              style={styles.lightImage1}
+              source={light} 
+            />
+            <ImageBackground
+              style={styles.lightImage2}
+              source={light}
+            />
           </Animated.View>
-          <View className="flex mt-[50%] items-center">
-            <Text className="text-5xl font-bold text-white tracking-wider">
-              Login
-            </Text>
+          <View style={styles.titleContainer}>
+            <Text style={styles.titleText}>Login</Text>
           </View>
         </>
       )}
       {loaded && (
-        <ScrollView className="flex w-full h-full pb-10">
-          <View className="flex-1 mt-[30%] items-center mx-4 space-y-4">
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.formContainer}>
             <Animated.View
               entering={StretchInX.delay(100).duration(200)}
-              className="w-full">
+              style={styles.inputContainer}>
               <TextInput
                 value={emailOrUsername}
                 onChangeText={handleEmailOrUsernameChange}
@@ -161,17 +165,16 @@ export default function Login() {
                 label="Email or username"
                 mode="outlined"
                 activeOutlineColor="#42a5f5"
+                style={styles.input}
                 error={errors.emailOrUsername ? true : false}
               />
               {errors.emailOrUsername && (
-                <Text className="mb-[-10px]" style={styles.errorText}>
-                  {errors.emailOrUsername}
-                </Text>
+                <Text style={styles.errorText}>{errors.emailOrUsername}</Text>
               )}
             </Animated.View>
             <Animated.View
               entering={StretchInX.delay(100).duration(200)}
-              className="w-full mb-3">
+              style={[styles.inputContainer, styles.passwordContainer]}>
               <TextInput
                 label="Password"
                 value={password}
@@ -186,37 +189,32 @@ export default function Login() {
                     icon={secureText ? "eye-off" : "eye"}
                   />
                 }
+                style={styles.input}
                 error={errors.password ? true : false}
               />
               {errors.password && (
-                <Text className="mb-[-10px]" style={styles.errorText}>
-                  {errors.password}
-                </Text>
+                <Text style={styles.errorText}>{errors.password}</Text>
               )}
             </Animated.View>
             <Animated.View
               entering={StretchInY.delay(100).duration(200)}
-              className="w-full">
+              style={styles.inputContainer}>
               <TouchableOpacity
                 onPress={handleLogin}
                 disabled={isLoading}
-                className="bg-sky-500 p-3 rounded-2xl w-full mb-3">
+                style={styles.loginButton}>
                 {isLoading ? (
                   <ActivityIndicator color="#fff" />
                 ) : (
-                  <Text className="text-white font-bold text-center text-xl">
-                    Login
-                  </Text>
+                  <Text style={styles.loginButtonText}>Login</Text>
                 )}
               </TouchableOpacity>
             </Animated.View>
             <Text style={styles.errorText}>{message}</Text>
-            <View className="w-full flex-row justify-center">
-              <Text className="text-xl">Don't have an account?</Text>
-              <TouchableOpacity
-                className=""
-                onPress={() => navigation.push("Signup")}>
-                <Text className="text-sky-500 font-bold text-xl">Signup</Text>
+            <View style={styles.signupContainer}>
+              <Text style={styles.signupText}>Don't have an account?</Text>
+              <TouchableOpacity onPress={() => navigation.push("Signup")}>
+                <Text style={styles.signupButtonText}>Signup</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -225,16 +223,99 @@ export default function Login() {
     </SafeAreaView>
   );
 }
-
+const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "center",
+  safeArea: {
+    backgroundColor: "white",
+    height: "100%",
+    width: "100%",
+  },
+  backgroundImage: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+  },
+  animatedContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+    position: "absolute",
+  },
+  lightImage1: {
+    height: 225,
+    width: 90,
+  },
+  lightImage2: {
+    height: 160,
+    width: 65,
+  },
+  titleContainer: {
+    marginTop: width * 0.4,
     alignItems: "center",
+    ...Platform.select({
+      web: {
+        marginTop: width * 0.1
+      }
+    })
+  },
+  titleText: {
+    fontSize: 50,
+    fontWeight: "bold",
+    color: "white",
+    letterSpacing: 2,
+  },
+  scrollView: {
+    width: "100%",
+    paddingBottom: 10,
+  },
+  formContainer: {
+    flex: 1,
+    marginTop: width * 0.4,
+    alignItems: "center",
+    marginHorizontal: 16,
+    spaceY: 4,
+    ...Platform.select({
+      web: {
+        marginTop: width * 0.2
+      }
+    })
+  },
+  inputContainer: {
+    width: "100%",
+    marginBottom: 16,
+  },
+  passwordContainer: {
+    marginBottom: 20,
   },
   errorText: {
     color: "red",
-    fontSize: 12,
-    marginTop: 5,
+    fontSize: 10,
+    marginTop: 1,
+  },
+  loginButton: {
+    backgroundColor: "#0ea5e9",
+    padding: 16,
+    borderRadius: 16,
+    width: "100%",
+    alignItems: "center",
+  },
+  loginButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  signupContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  signupText: {
+    fontSize: 20,
+  },
+  signupButtonText: {
+    color: "#0ea5e9",
+    fontWeight: "bold",
+    fontSize: 20,
+    marginLeft: 8,
   },
 });
